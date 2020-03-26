@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 1508398098
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: star.back
+      Dependencies: {}
