@@ -1,43 +1,39 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.Events;
 
 public class Intaract : MonoBehaviour
 {
     // Start is called before the first frame update
 
     public Text InteractText;
+    public UnityAction<GameObject> onInteract;
     public string BaseText;
     public string Subject;
 
-    bool Check()
-    {
-        if (NewBehaviourScript.Instance.ItemToIntaract.tag == "Teleport")
-            return true;
-        else
-            return false;
-
-    }
-    void FixedUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.F) && Check())
-            Use();
-    }
+    public GameObject Interactable;
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject == NewBehaviourScript.Instance.gameObject)
         {
             InteractText.text = "Press F to " + BaseText;
-            NewBehaviourScript.Instance.ItemToIntaract = this.gameObject;
+            NewBehaviourScript.Instance.onInteract += this.Use;
         }
     }
-
-
-    public virtual void Use()
+    void OnTriggerExit2D(Collider2D other)
     {
-        InteractText.text = Subject;
+        if (other.gameObject == NewBehaviourScript.Instance.gameObject)
+        {
+            InteractText.text = "";
+            NewBehaviourScript.Instance.onInteract -= this.Use;
+        }
+    }
+    public virtual void Use(GameObject interactItem)
+    {
+        InteractText.text = interactItem.name;
     }
 }
