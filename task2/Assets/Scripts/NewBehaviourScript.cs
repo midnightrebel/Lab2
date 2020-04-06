@@ -1,22 +1,25 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class NewBehaviourScript : MonoBehaviour
 {
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
-
     public bool isGrounded;
     public Animator animator;
     public float h;
     public GameObject ItemToIntaract;
-
-   
-
+    public string BaseText;
+    public string Subject; 
+    public Text InteractText;
+    public UnityAction<GameObject> onInteract;
     private static NewBehaviourScript instance;
+    public GameObject Player;
+
     public static NewBehaviourScript Instance
     {
         get
@@ -61,8 +64,11 @@ public class NewBehaviourScript : MonoBehaviour
             animator.SetInteger("stateAnimation", 0);
         if (!IsGrounded())
             animator.SetInteger("stateAnimation", 2);
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            onInteract?.Invoke(ItemToIntaract);
+        }
     }
-
     bool IsGrounded()
     {
         RaycastHit2D hitInfo;
