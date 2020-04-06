@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,11 +12,14 @@ public class TeleportScript : Intaract
     public GameObject Player;
     public GameObject Teleport;
 
-    public override void Use()
+    public override void Use(GameObject gameObject)
     {
-        Player.transform.position = Teleport.transform.position;
-        Subject = "Teleported";
-        base.Use();
+        if (NewBehaviourScript.Instance.ItemToIntaract.tag == "Teleport")
+        {
+            Player.transform.position = Teleport.transform.position;
+            Subject = "Teleported";
+            base.Use(Teleport);
+        }
     }
 
 }
